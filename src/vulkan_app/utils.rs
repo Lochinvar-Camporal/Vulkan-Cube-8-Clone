@@ -27,11 +27,14 @@ pub struct SwapchainSupportDetails {
     pub present_modes: Vec<vk::PresentModeKHR>,
 }
 
+#[repr(C)]
 #[derive(Copy, Clone)]
 pub struct UniformBufferObject {
     pub model: Matrix4<f32>,
     pub view: Matrix4<f32>,
     pub proj: Matrix4<f32>,
+    pub time: f32,
+    pub _pad: [f32; 3],
 }
 
 pub unsafe extern "system" fn vulkan_debug_callback(

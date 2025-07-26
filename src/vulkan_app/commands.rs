@@ -30,8 +30,16 @@ impl VulkanApp {
                 .unwrap();
         }
 
+        let time = self.start_time.elapsed().as_secs_f32();
         let clear_color = vk::ClearValue {
-            color: vk::ClearColorValue { float32: [0.0, 0.0, 0.0, 1.0] },
+            color: vk::ClearColorValue {
+                float32: [
+                    0.1 + 0.1 * time.sin(),
+                    0.4 + 0.1 * (time * 0.7).sin(),
+                    0.7 + 0.1 * (time * 1.3).sin(),
+                    1.0,
+                ],
+            },
         };
         let depth_clear = vk::ClearValue {
             depth_stencil: vk::ClearDepthStencilValue { depth: 1.0, stencil: 0 },
