@@ -152,7 +152,13 @@ impl VulkanApp {
         );
         proj[1][1] *= -1.0;
 
-        let ubo = UniformBufferObject { model, view, proj };
+        let ubo = UniformBufferObject {
+            model,
+            view,
+            proj,
+            time,
+            _pad: [0.0; 3],
+        };
 
         unsafe {
             let data_ptr = self
