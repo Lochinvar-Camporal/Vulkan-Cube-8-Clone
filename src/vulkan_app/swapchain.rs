@@ -235,13 +235,12 @@ impl VulkanApp {
         );
         self.uniform_buffers = uniform_buffers;
         self.uniform_buffers_memory = uniform_buffers_memory;
-        let (descriptor_pool, descriptor_sets) = descriptors::create_descriptor_pool(
+        let descriptor_pool = descriptors::create_descriptor_pool(
             &self.device,
             self.swapchain_images.len(),
             self.descriptor_set_layout,
         );
         self.descriptor_pool = descriptor_pool;
-        self.descriptor_sets = descriptor_sets;
         self.descriptor_sets = descriptors::create_descriptor_sets(
             &self.device,
             self.descriptor_pool,

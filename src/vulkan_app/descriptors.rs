@@ -7,7 +7,7 @@ pub fn create_descriptor_set_layout(device: &ash::Device) -> vk::DescriptorSetLa
         .binding(0)
         .descriptor_type(vk::DescriptorType::UNIFORM_BUFFER)
         .descriptor_count(1)
-        .stage_flags(vk::ShaderStageFlags::VERTEX)
+        .stage_flags(vk::ShaderStageFlags::VERTEX | vk::ShaderStageFlags::FRAGMENT)
         .build();
 
     let layout_info = vk::DescriptorSetLayoutCreateInfo::builder()
@@ -18,9 +18,9 @@ pub fn create_descriptor_set_layout(device: &ash::Device) -> vk::DescriptorSetLa
 
 pub fn create_descriptor_pool(
     device: &ash::Device,
-    num_images: usize,
-    descriptor_set_layout: vk::DescriptorSetLayout,
-) -> (vk::DescriptorPool, Vec<vk::DescriptorSet>) {
+    _num_images: usize,
+    _descriptor_set_layout: vk::DescriptorSetLayout,
+) -> vk::DescriptorPool {
     let pool_size = vk::DescriptorPoolSize::builder()
         .ty(vk::DescriptorType::UNIFORM_BUFFER)
         .descriptor_count(100)
@@ -30,16 +30,7 @@ pub fn create_descriptor_pool(
         .pool_sizes(std::slice::from_ref(&pool_size))
         .max_sets(100);
 
-    let descriptor_pool = unsafe { device.create_descriptor_pool(&pool_info, None).unwrap() };
-
-    let layouts = vec![descriptor_set_layout; num_images];
-    let allocate_info = vk::DescriptorSetAllocateInfo::builder()
-        .descriptor_pool(descriptor_pool)
-        .set_layouts(&layouts);
-
-    let descriptor_sets = unsafe { device.allocate_descriptor_sets(&allocate_info).unwrap() };
-
-    (descriptor_pool, descriptor_sets)
+    unsafe { device.create_descriptor_pool(&pool_info, None).unwrap() }
 }
 
 pub fn create_descriptor_sets(
