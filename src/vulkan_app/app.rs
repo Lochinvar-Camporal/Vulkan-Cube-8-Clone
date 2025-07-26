@@ -133,7 +133,7 @@ impl VulkanApp {
             physical_device,
             swapchain_images.len(),
         );
-        let (descriptor_pool, descriptor_sets) = descriptors::create_descriptor_pool(
+        let descriptor_pool = descriptors::create_descriptor_pool(
             &device,
             swapchain_images.len(),
             descriptor_set_layout,
